@@ -1,3 +1,4 @@
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -25,7 +26,7 @@ Node *insert_at_tail(Node *head, int value) {
   new_node->value = value;
 
   if (head == NULL) {
-    return new_node;
+    return NULL;
   }
 
   Node *current = head;
@@ -36,7 +37,7 @@ Node *insert_at_tail(Node *head, int value) {
 
   current->next = new_node;
 
-  return new_node;
+  return head;
 }
 
 Node *delete_at_head(Node *head) {
@@ -46,7 +47,7 @@ Node *delete_at_head(Node *head) {
 
   Node *to_return = head->next;
   free(head);
-  
+
   return to_return;
 }
 
@@ -85,6 +86,77 @@ void print_all_nodes(Node *head) {
   }
 }
 
-int length(Node *head) {
-  return head == NULL ? 0 : 1 + length(head->next);
+int length(Node *head) { return head == NULL ? 0 : 1 + length(head->next); }
+
+bool is_member(Node *head, int value) {
+  if (head == NULL) {
+    return false;
+  }
+
+  if (head->value == value) {
+    return true;
+  }
+
+  return is_member(head->next, value);
+}
+
+int count_matches(Node *head, int value) {
+  if (head == NULL) {
+    return 0;
+  }
+
+  if (head->value == value) {
+    return 1 + count_matches(head->next, value);
+  }
+
+  return 0 + count_matches(head->next, value);
+}
+
+void replace(Node *head, int value, int replacement, bool once) {
+  if (head == NULL) {
+    return;
+  }
+
+  if (head->value == value) {
+    head->value = replacement;
+
+    if (once) {
+      return;
+    }
+  }
+
+  return replace(head->next, value, replacement, once);
+}
+
+Node *delete_first_match(Node *head, int value, bool *was_deleted) {
+  if (head == NULL) {
+    *was_deleted = false;
+    return NULL;
+  }
+
+  if (head->value == value) {
+    Node *tmp = head->next;
+    free(head);
+    *was_deleted = true;
+    return tmp;
+  }
+
+  Node *current = head->next;
+  Node *prev = head;
+
+  while (current != NULL) {
+
+    if (current->value == value) {
+      prev->next = current->next;
+      free(current);
+      *was_deleted = true;
+      return head;
+    }
+
+    prev = current;
+    current = current->next;
+  }
+
+  *was_deleted = false;
+  return head;
 }
