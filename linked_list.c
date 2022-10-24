@@ -2,34 +2,23 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct node_t {
+typedef struct node {
   int value;
-  struct node_t *next;
-} Node;
+  struct node *next;
+} node_t;
 
-Node *insert_at_head(Node *head, int value) {
+// append
+node_t *append(node_t *head, int value) {
 
-  Node *new_node = calloc(1, sizeof(Node));
-
+  node_t *new_node = calloc(1, sizeof(node_t));
   new_node->value = value;
-
-  if (head != NULL) {
-    new_node->next = head;
-  }
-
-  return new_node;
-}
-
-Node *insert_at_tail(Node *head, int value) {
-  Node *new_node = calloc(1, sizeof(Node));
-
-  new_node->value = value;
+  new_node->next = NULL;
 
   if (head == NULL) {
-    return NULL;
+    return new_node;
   }
 
-  Node *current = head;
+  node_t *current = head;
 
   while (current->next != NULL) {
     current = current->next;
@@ -40,24 +29,33 @@ Node *insert_at_tail(Node *head, int value) {
   return head;
 }
 
-Node *delete_at_head(Node *head) {
+// prepend
+node_t *prepend(node_t *head, int value) {
+  node_t *new_node = calloc(1, sizeof(node_t));
+  new_node->value = value;
+
   if (head == NULL) {
-    return NULL;
+    return new_node;
   }
 
-  Node *to_return = head->next;
-  free(head);
+  new_node->next = head;
 
-  return to_return;
+  return new_node;
 }
 
-void *delete_at_tail(Node *head) {
+// pop
+node_t *pop(node_t *head) {
   if (head == NULL) {
     return NULL;
   }
 
-  Node *current = head;
-  Node *prev = current;
+  if (head->next == NULL) {
+    free(head);
+    return NULL;
+  }
+
+  node_t *current = head;
+  node_t *prev = current;
 
   while (current->next != NULL) {
     prev = current;
@@ -67,16 +65,81 @@ void *delete_at_tail(Node *head) {
   prev->next = NULL;
 
   free(current);
-  return NULL;
+  return head;
 }
 
-void print_all_nodes(Node *head) {
+// unshift
+node_t *unshift(node_t *head) {
   if (head == NULL) {
-    printf("The list is empty");
-    return;
+    return NULL;
   }
 
-  Node *current = head;
+  node_t *new_head = head->next;
+  free(head);
+
+  return new_head;
+}
+
+// filter
+node_t *filter(node_t *head, int value) {
+  if (head == NULL) {
+    return NULL;
+  }
+
+  node_t *new_head = head;
+
+  while (new_head->value == value) {
+    node_t *tmp = new_head;
+    new_head = new_head->next;
+    free(tmp);
+
+    if (new_head == NULL) {
+      return NULL;
+    }
+  }
+
+  node_t *current = new_head->next;
+  node_t *prev = new_head;
+
+  while (current != NULL) {
+
+    if (current->value == value) {
+      node_t *tmp = current;
+      prev->next = current->next;
+      current = current->next;
+      free(tmp);
+    } else {
+      prev = current;
+      current = current->next;
+    }
+  }
+
+  return new_head;
+}
+
+// replace
+node_t *replace(node_t *head, int value, int replacement) {
+  if (head == NULL) {
+    return NULL;
+  }
+
+  node_t *current = head;
+
+  while (current != NULL) {
+    if (current->value == value) {
+      current->value = replacement;
+      break;
+    }
+
+    current = current->next;
+  }
+
+  return head;
+}
+
+// print
+void print_list(node_t *head) {
+  node_t *current = head;
 
   int idx = 0;
   while (current != NULL) {
@@ -86,9 +149,22 @@ void print_all_nodes(Node *head) {
   }
 }
 
-int length(Node *head) { return head == NULL ? 0 : 1 + length(head->next); }
+// free
+void free_list(node_t *head) {
+  node_t *current = head;
 
-bool is_member(Node *head, int value) {
+  while (current != NULL) {
+    node_t *tmp = current;
+    current = current->next;
+    free(tmp);
+  }
+}
+
+// length
+int length(node_t *head) { return head == NULL ? 0 : 1 + length(head->next); }
+
+// contains
+bool contains(node_t *head, int value) {
   if (head == NULL) {
     return false;
   }
@@ -97,66 +173,18 @@ bool is_member(Node *head, int value) {
     return true;
   }
 
-  return is_member(head->next, value);
+  return contains(head->next, value);
 }
 
-int count_matches(Node *head, int value) {
+// count
+int count(node_t *head, int value) {
   if (head == NULL) {
     return 0;
   }
 
   if (head->value == value) {
-    return 1 + count_matches(head->next, value);
+    return 1 + count(head->next, value);
   }
 
-  return 0 + count_matches(head->next, value);
-}
-
-void replace(Node *head, int value, int replacement, bool once) {
-  if (head == NULL) {
-    return;
-  }
-
-  if (head->value == value) {
-    head->value = replacement;
-
-    if (once) {
-      return;
-    }
-  }
-
-  return replace(head->next, value, replacement, once);
-}
-
-Node *delete_first_match(Node *head, int value, bool *was_deleted) {
-  if (head == NULL) {
-    *was_deleted = false;
-    return NULL;
-  }
-
-  if (head->value == value) {
-    Node *tmp = head->next;
-    free(head);
-    *was_deleted = true;
-    return tmp;
-  }
-
-  Node *current = head->next;
-  Node *prev = head;
-
-  while (current != NULL) {
-
-    if (current->value == value) {
-      prev->next = current->next;
-      free(current);
-      *was_deleted = true;
-      return head;
-    }
-
-    prev = current;
-    current = current->next;
-  }
-
-  *was_deleted = false;
-  return head;
+  return 0 + count(head->next, value);
 }

@@ -4,25 +4,41 @@
 
 int main() {
 
-  Node *head = NULL;
-  Node *tail = NULL;
+  node_t *head = NULL;
 
-  head = insert_at_head(head, 2);
-  head = insert_at_head(head, -12);
-  head = insert_at_head(head, 243);
-  head = insert_at_tail(head, -12);
+  head = append(head, 12);
+  head = prepend(head, -2);
+  head = prepend(head, 4);
+  head = append(head, 76);
+  head = append(head, 33);
 
-  // replace(head, 243, -12, false);
-  print_all_nodes(head);
+  head = pop(head);
+  head = unshift(head);
 
-  // printf("The length of the linked list is: %d\n", length(head));
-  // printf("Is 24 a member of this list? %d\n", is_member(head, 24));
-  // printf("-12 appears in this list %d times\n", count_matches(head, -12));
+  head = replace(head, -2, 147);
 
-  bool was_deleted = false;
-  head = delete_first_match(head, -12, &was_deleted);
+  head = prepend(head, 33);
+  head = append(head, 33);
+  head = append(head, 33);
+  head = prepend(head, 33);
+  head = append(head, 33);
 
-  print_all_nodes(head);
+  head = filter(head, 33);
+
+  int len = length(head);
+  int find_value = 183;
+  int is_member = contains(head, find_value);
+
+  printf("List has %d elements.\n", len);
+
+  if (is_member) {
+    printf("%d is member of the list.\n", find_value);
+  } else {
+    printf("%d is NOT a member of the list.\n", find_value);
+  }
+
+  print_list(head);
+  free_list(head);
 
   return 0;
 }
