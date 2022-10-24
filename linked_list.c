@@ -1,11 +1,7 @@
+#include "linked_list.h"
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
-
-typedef struct node {
-  int value;
-  struct node *next;
-} node_t;
 
 // append
 node_t *append(node_t *head, int value) {
@@ -177,14 +173,14 @@ bool contains(node_t *head, int value) {
 }
 
 // count
-int count(node_t *head, int value) {
+int count_value(node_t *head, int value) {
   if (head == NULL) {
     return 0;
   }
 
   if (head->value == value) {
-    return 1 + count(head->next, value);
+    return 1 + count_value(head->next, value);
   }
 
-  return 0 + count(head->next, value);
+  return 0 + count_value(head->next, value);
 }
