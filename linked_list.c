@@ -208,6 +208,44 @@ node_t *sort(node_t *head) {
   return head;
 }
 
+// unique
+void unique(node_t *head) {
+  if (head == NULL) {
+    return;
+  }
+
+  node_t *current = head;
+
+  while (current != NULL) {
+
+    int target = current->value;
+    node_t *outer_next = current->next;
+    node_t *inner_current = current->next;
+    node_t *inner_prev = current;
+
+    while (inner_current != NULL) {
+
+      if (inner_current->value == target) {
+        node_t *tmp = inner_current;
+        inner_prev->next = inner_current->next;
+        inner_current = inner_current->next;
+
+        if (outer_next->value == target) {
+          outer_next = inner_current;
+        }
+
+        free(tmp);
+        continue;
+      }
+
+      inner_prev = inner_current;
+      inner_current = inner_current->next;
+    }
+
+    current = outer_next;
+  }
+}
+
 // print
 void print_list(node_t *head) {
   node_t *current = head;
