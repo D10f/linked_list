@@ -154,6 +154,30 @@ node_t *replace(node_t *head, int value, int replacement) {
   return head;
 }
 
+node_t *reverse(node_t *head) {
+  if (head == NULL) {
+    return NULL;
+  }
+
+  if (head->next == NULL) {
+    return head;
+  }
+
+  node_t *current = head;
+  node_t *next_node = head->next;
+
+  current->next = NULL;
+
+  while (next_node != NULL) {
+    node_t *tmp = next_node->next;
+    next_node->next = current;
+    current = next_node;
+    next_node = tmp;
+  }
+
+  return current;
+}
+
 // print
 void print_list(node_t *head) {
   node_t *current = head;
