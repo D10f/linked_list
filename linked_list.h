@@ -22,3 +22,4 @@ bool contains(node_t *head, int value);
 int count_value(node_t *head, int value);
 node_t *extend(node_t *head1, node_t *head2);
 node_t *reverse(node_t *head);
+node_t *sort(node_t *head);

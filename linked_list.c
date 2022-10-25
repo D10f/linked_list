@@ -154,6 +154,7 @@ node_t *replace(node_t *head, int value, int replacement) {
   return head;
 }
 
+// reverse
 node_t *reverse(node_t *head) {
   if (head == NULL) {
     return NULL;
@@ -176,6 +177,35 @@ node_t *reverse(node_t *head) {
   }
 
   return current;
+}
+
+// sort
+node_t *sort(node_t *head) {
+  if (head == NULL) {
+    return NULL;
+  }
+
+  if (head->next == NULL) {
+    return head;
+  }
+
+  node_t *prev = head;
+  node_t *current = head->next;
+
+  while (current != NULL) {
+    if (prev->value > current->value) {
+      int tmp = prev->value;
+      prev->value = current->value;
+      current->value = tmp;
+      prev = head;
+      current = head->next;
+    } else {
+      prev = current;
+      current = current->next;
+    }
+  }
+
+  return head;
 }
 
 // print
