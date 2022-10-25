@@ -18,6 +18,7 @@ node_t *replace(node_t *head, int value, int replacement);
 node_t *extend(node_t *head1, node_t *head2);
 node_t *reverse(node_t *head);
 node_t *sort(node_t *head);
+node_t *insert_after(node_t *head, int target, int value);
 void unique(node_t *head);
 void print_list(node_t *head);
 void free_list(node_t *head);

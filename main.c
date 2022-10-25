@@ -18,14 +18,12 @@ int main() {
   list1 = reverse(list1);
   list1 = extend(list1, list2);
 
-  // list1 = sort(list1);
-
-  printf("Before\n");
-  print_list(list1);
-
   unique(list1);
 
-  printf("After\n");
+  list1 = insert_after(list1, 123, 999);
+
+  list1 = sort(list1);
+
   print_list(list1);
 
   free_list(list1);

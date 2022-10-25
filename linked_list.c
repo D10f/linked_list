@@ -39,6 +39,36 @@ node_t *prepend(node_t *head, int value) {
   return new_node;
 }
 
+// insert after
+node_t *insert_after(node_t *head, int target, int value) {
+  node_t *new_node = calloc(1, sizeof(node_t));
+  new_node->value = value;
+  new_node->next = NULL;
+
+  if (head == NULL) {
+    return new_node;
+  }
+
+  node_t *current = head;
+
+  while (current->next != NULL) {
+
+    if (current->value == target) {
+
+      new_node->next = current->next;
+      current->next = new_node;
+
+      return head;
+    }
+
+    current = current->next;
+  }
+
+  current->next = new_node;
+
+  return head;
+}
+
 // extend
 node_t *extend(node_t *head1, node_t *head2) {
   if (head1 == NULL) {
