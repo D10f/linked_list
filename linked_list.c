@@ -39,6 +39,27 @@ node_t *prepend(node_t *head, int value) {
   return new_node;
 }
 
+// extend
+node_t *extend(node_t *head1, node_t *head2) {
+  if (head1 == NULL) {
+    return head2;
+  }
+
+  if (head2 == NULL) {
+    return head1;
+  }
+
+  node_t *current = head1;
+
+  while (current->next != NULL) {
+    current = current->next;
+  }
+
+  current->next = head2;
+
+  return head1;
+}
+
 // pop
 node_t *pop(node_t *head) {
   if (head == NULL) {

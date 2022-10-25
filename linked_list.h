@@ -20,3 +20,4 @@ void free_list(node_t *head);
 int length(node_t *head);
 bool contains(node_t *head, int value);
 int count_value(node_t *head, int value);
+node_t *extend(node_t *head1, node_t *head2);

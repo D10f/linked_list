@@ -4,41 +4,21 @@
 
 int main() {
 
-  node_t *head = NULL;
+  node_t *list1 = NULL;
+  node_t *list2 = NULL;
 
-  head = append(head, 12);
-  head = prepend(head, -2);
-  head = prepend(head, 4);
-  head = append(head, 76);
-  head = append(head, 33);
-
-  head = pop(head);
-  head = unshift(head);
-
-  head = replace(head, -2, 147);
-
-  head = prepend(head, 33);
-  head = append(head, 33);
-  head = append(head, 33);
-  head = prepend(head, 33);
-  head = append(head, 33);
-
-  head = filter(head, 33);
-
-  int len = length(head);
-  int find_value = 183;
-  int is_member = contains(head, find_value);
-
-  printf("List has %d elements.\n", len);
-
-  if (is_member) {
-    printf("%d is member of the list.\n", find_value);
-  } else {
-    printf("%d is NOT a member of the list.\n", find_value);
+  for (int i = 0; i < 10; i++) {
+    list1 = append(list1, i);
   }
 
-  print_list(head);
-  free_list(head);
+  for (int j = 0; j < 10; j++) {
+    list2 = append(list2, j);
+  }
+
+  print_list(list1);
+  // print_list(list2);
+  free_list(list1);
+  // free_list(list2);
 
   return 0;
 }
