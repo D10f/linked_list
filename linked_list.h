@@ -25,3 +25,15 @@ void free_list(node_t *head);
 int length(node_t *head);
 bool contains(node_t *head, int value);
 int count_value(node_t *head, int value);
+
+void add_lists(node_t *head1, node_t *head2);
+node_t *duplicate_list(node_t *head);
+// node_t *merge(node_t *list1, node_t *list2);
+
+/*
+
+list1 = 1 -> 2 -> 4 -> 16
+list2 = 0 -> 1 -> 4 -> 6 -> 8 -> 23
+
+result = 0 -> 1 -> 2 -> 4 -> 6 -> 8 -> 16 -> 23
+*/

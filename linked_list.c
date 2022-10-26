@@ -327,3 +327,31 @@ int count_value(node_t *head, int value) {
 
   return 0 + count_value(head->next, value);
 }
+
+// add lists
+void add_lists(node_t *head1, node_t *head2) {
+  if (head1 == NULL || head2 == NULL) {
+    return;
+  }
+
+  head1->value = head1->value + head2->value;
+
+  add_lists(head1->next, head2->next);
+}
+
+node_t *duplicate_list(node_t *head) {
+  if (head == NULL) {
+    return NULL;
+  }
+
+  node_t *result = calloc(1, sizeof(node_t));
+  result->value = head->value;
+  node_t *current = head->next;
+
+  while (current != NULL) {
+    append(result, current->value);
+    current = current->next;
+  }
+
+  return result;
+}
