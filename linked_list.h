@@ -28,7 +28,7 @@ int count_value(node_t *head, int value);
 
 void add_lists(node_t *head1, node_t *head2);
 node_t *duplicate_list(node_t *head);
-// node_t *merge(node_t *list1, node_t *list2);
+node_t *merge(node_t *list1, node_t *list2);
 
 /*
 

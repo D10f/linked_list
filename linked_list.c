@@ -344,14 +344,59 @@ node_t *duplicate_list(node_t *head) {
     return NULL;
   }
 
-  node_t *result = calloc(1, sizeof(node_t));
-  result->value = head->value;
-  node_t *current = head->next;
+  node_t *new_node = calloc(1, sizeof(node_t));
+  new_node->value = head->value;
+  new_node->next = duplicate_list(head->next);
 
-  while (current != NULL) {
-    append(result, current->value);
-    current = current->next;
+  return new_node;
+}
+
+node_t *merge(node_t *list1, node_t *list2) {
+  if (list1 == NULL) {
+    return list2;
   }
 
-  return result;
+  if (list2 == NULL) {
+    return list1;
+  }
+
+  node_t *new_head, *new_current;
+  node_t *current1 = list1;
+  node_t *current2 = list2;
+
+  if (current1->value < current2->value) {
+    new_head = current1;
+    current1 = current1->next;
+  } else if (current1->value > current2->value) {
+    new_head = current2;
+    current2 = current2->next;
+  } else {
+    new_head = current1;
+    current1 = current1->next;
+    node_t *tmp = current2;
+    current2 = current2->next;
+    free(tmp);
+  }
+
+  new_current = new_head;
+
+  while (current1 != NULL && current2 != NULL) {
+    if (current1->value <= current2->value) {
+      new_current->next = current1;
+      new_current = current1;
+      current1 = current1->next;
+    } else {
+      new_current->next = current2;
+      new_current = current2;
+      current2 = current2->next;
+    }
+  }
+
+  if (current1 == NULL) {
+    new_current->next = current2;
+  } else {
+    new_current->next = current1;
+  }
+
+  return new_head;
 }
